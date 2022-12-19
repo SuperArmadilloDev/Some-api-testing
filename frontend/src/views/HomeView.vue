@@ -76,6 +76,10 @@
 
     beforeMount(){
       this.getMovies(1)
+      const test = this.getActors(1)
+      const test2 = this.getActors(1)
+
+      console.log(test == test2)
     },
 
     data(){
@@ -94,6 +98,15 @@
           {
             type:'fetchMovies',
             page: page
+          }
+          )
+        },
+
+      getActors: function(id) {
+        this.$store.dispatch(
+          {
+            type:'fetchActorById',
+            id: id
           }
           )
         }

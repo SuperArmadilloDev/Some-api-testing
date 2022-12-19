@@ -20,3 +20,6 @@ $ docker-compose up --build
 - Doc swagger: [http://localhost:8000/swagger/](http://localhost:8000/swagger/)
 - Doc Redoc: [http://localhost:8000/redoc/](http://localhost:8000/redoc/)
 
+# TODO:
+
+Understanding how the actors api works
