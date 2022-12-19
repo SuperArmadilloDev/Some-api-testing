@@ -1,6 +1,29 @@
 <template>
-  <v-btn @click="test">this is a test</v-btn> 
-    <!-- <hello-world /> -->
+  <div>
+  <v-btn @click="getMovies(2)">this is a test</v-btn> 
+
+  <v-card>
+    <v-list-item 
+    v-for="res in this.$store.state.movies.results"
+    :key="res.id"
+    >
+      <v-list-item-content two-line>
+        <v-list-item-title>{{ res.title }}</v-list-item-title>
+        <v-list-item-subtitle>{{ res.description }}</v-list-item-subtitle>
+      </v-list-item-content>
+
+    </v-list-item>
+
+    <div class="text-center">
+    <v-pagination
+      v-model="page"
+      :length="Math.trunc(this.$store.state.movies.count / 5)"
+      :total-visible="7"
+      @input="getMovies"
+    ></v-pagination>
+  </div>
+  </v-card>
+</div>
 </template>
 
 <script>
@@ -9,31 +32,30 @@
   export default {
     name: 'HomeView',
 
+
+    beforeMount(){
+      this.getMovies(1)
+    },
+
+    data(){
+      return {
+        page: 1
+      }
+    },
+
     components: {
       // HelloWorld,
     },
 
-
     methods: {
-      test: function() {
-        // console.log(this.$store.state)
+      getMovies: function(page) {
         this.$store.dispatch(
           {
             type:'fetchMovies',
-            page: 2
+            page: page
           }
-         )
-      }
+          )
+        }
     }
-
-    
-    // setup() {
-    //   const movies = this.$store.state.movies
-    //   const test = this.$store.state.testData
-
-    //   console.log(test)
-
-    //   return {movies, test}
-    // },
   }
 </script>
