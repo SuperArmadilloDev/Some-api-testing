@@ -1,7 +1,5 @@
 <template>
   <div>
-  <v-btn @click="getMovies(2)">this is a test</v-btn> 
-
   <v-card>
     <v-list-item 
     v-for="res in this.$store.state.movies.results"
