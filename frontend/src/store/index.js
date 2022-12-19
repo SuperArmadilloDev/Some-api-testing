@@ -10,29 +10,32 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    movies: [],
+    movies: {
+      count: 0,
+      next: null,
+      previous: null,
+      results: []
+    },
     actors: [],
     reviews: [],
   },
   getters: {
   },
   mutations: {
-    editMovies() {
-      // state.movies = data
+    editMovies(state, data) {
+      state.movies = { ...data }
     }
   },
   actions: {
     async fetchMovies({commit}, context) {
-      console.log(context.page)
       try{
         const {data: {count, next, previous, results}} = await axios.get(`${API_URL}movies`, {
           params: {
             page: context.page
           }
         })
-        console.log(count, next, previous, results)
-
-        commit('editMovies')
+        
+        commit('editMovies', {count, next, previous, results})
 
       } catch (error){
         alert(error)
