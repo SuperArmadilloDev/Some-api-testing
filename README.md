@@ -19,7 +19,3 @@ $ docker-compose up --build
 - Api Playgroung (first page give you 3 links. Click on them to play with the different endpoint): [http://localhost:8000/api/](http://localhost:8000/api/)
 - Doc swagger: [http://localhost:8000/swagger/](http://localhost:8000/swagger/)
 - Doc Redoc: [http://localhost:8000/redoc/](http://localhost:8000/redoc/)
-
-# TODO:
-
-Understanding how the actors api works
