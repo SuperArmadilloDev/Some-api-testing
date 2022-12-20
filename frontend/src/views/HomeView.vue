@@ -3,7 +3,7 @@
     <v-row justify="center" align="center" class="mx-10">
     <v-expansion-panels accordion >
       <v-expansion-panel
-        v-for="res in this.$store.state.movies.results"
+        v-for="res in this.$store.getters.movies.results"
         :key="res.id"
       >
         <v-expansion-panel-header class="text-h5">{{ res.title }}</v-expansion-panel-header>
@@ -51,9 +51,13 @@
     <v-pagination
       v-model="page"
       :length="Math.trunc(this.$store.state.movies.count / 5)"
-      :total-visible="7"
+      :total-visible="5"
       @input="getMovies"
     ></v-pagination>
+
+    <div v-for="res in this.$store.getters.actors" :key="res.id">
+      {{  res }}
+    </div>
   </div>
   </v-row>
 
@@ -70,10 +74,6 @@
 
     beforeMount(){
       this.getMovies(1)
-      const test = this.getActors(1)
-      const test2 = this.getActors(1)
-
-      console.log(test == test2)
     },
 
     data(){
@@ -94,7 +94,7 @@
             page: page
           }
           )
-        },
+      },
 
       getActors: function(id) {
         this.$store.dispatch(
@@ -103,7 +103,7 @@
             id: id
           }
           )
-        }
+      },      
     }
   }
 </script>

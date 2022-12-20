@@ -18,6 +18,8 @@ export default new Vuex.Store({
     reviews: [],
   },
   getters: {
+    movies: state => state.movies,
+    actors: state => state.actors
   },
   mutations: {
     editMovies(state, data) {
@@ -25,7 +27,7 @@ export default new Vuex.Store({
     },
 
     editActors(state, data) {
-      state.actors.push(data)
+      state.actors.push({ ...data })
     },
   },
   actions: {
@@ -44,17 +46,17 @@ export default new Vuex.Store({
       }
     },
 
-    async fetchActorById({commit, state}, context) {
-      const find = state.actors.find(e => e == context.id)
+    async fetchActorById({commit, getters}, context) {
+      const find = getters.actors.find((e) => e.id == context.id)
       if (find)
         return find
 
       try{
-        const {data} = await axios.get(`${API_URL}actors/${context.id}`)
+        const {data: {id, first_name, last_name}} = await axios.get(`${API_URL}actors/${context.id}`)
 
-        commit('editActors', data)
+        commit('editActors', {id, first_name, last_name})
 
-        return data
+        return {id, first_name, last_name}
 
 
       } catch (error){
