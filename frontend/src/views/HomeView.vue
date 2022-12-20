@@ -22,9 +22,16 @@
             <div class="text-h6">
               description:
             </div>
-            <div>
+            <div v-if="movieToEdit !== res.id">
               {{ res.description }}
             </div>
+            <v-textarea
+              v-else
+              :name="`input${res.id}`"
+              label="Edit Here!"
+              :value="res.description"
+              v-model="newDescr"
+            ></v-textarea>
           </div>
 
           <div class="mb-5" v-if="res.actors.length > 0">
@@ -44,7 +51,10 @@
               Add rating
             </CustomButton>
             <CustomButton
-            @clicked="movieToEdit = res.id">
+            @clicked="
+            movieToEdit = res.id
+            newDescr = res.description
+            ">
               Edit
             </CustomButton>
           </div>
@@ -82,7 +92,7 @@
       return {
         page: 1,
         movieToEdit: -1,
-        // editMode: false
+        newDescr: ''
       }
     },
 
@@ -118,8 +128,17 @@
       },
 
       applyChanges: function(){
-        this.movieToEdit = -1
         console.log(this.movieToEdit)
+        console.log(this.newDescr)
+        
+        this.$store.dispatch({
+          type: 'editMovieDescr',
+          id: this.movieToEdit,
+          descr : this.newDescr
+        })
+
+        this.newDescr = ''
+        this.movieToEdit = -1
       }
 
     }

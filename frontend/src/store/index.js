@@ -28,7 +28,8 @@ export default new Vuex.Store({
     actors: state => state.actors,
     reviews: state => state.reviews,
     actorById: state => id => state.actors.results.find(e => e.id === id) ?? false,
-    movieById: state => id => state.movies.results.find(e => e.id === id) ?? false
+    movieById: state => id => state.movies.results.find(e => e.id === id) ?? false,
+    movieIndexId: state => id => state.movies.results.findIndex(e => e.id === id) ?? false
   },
 
   mutations: {
@@ -48,6 +49,10 @@ export default new Vuex.Store({
       state.actors.results.push(data)
       state.actors.count ++
     },
+
+    editMovieDescr(state, index, movie) {
+      state.movies.results[index] = movie
+    }
   },
 
   actions: {
@@ -130,6 +135,14 @@ export default new Vuex.Store({
         alert(error)
       }
     },
+
+    async editMovieDescr({commit, getters}, context){
+      const movie = getters.movieById(context.id)
+      const index = getters.movieIndexId(context.id)
+      movie.description = context.descr
+
+      commit('editMovieDescr', {index, movie})
+    }
   },
   modules: {
   }
