@@ -1,6 +1,6 @@
 <template>
     <v-btn
-    class="ma-2 white--text"
+    class="mr-4 white--text"
     color="blue"
     @click="$emit('clicked')"
     > 
