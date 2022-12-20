@@ -8,15 +8,15 @@
       >
         <v-expansion-panel-header class="text-h5">{{ res.title }}</v-expansion-panel-header>
         <v-expansion-panel-content>
-          <div class="mb-5">
-          <div class="text-h6">rating</div>
-          <v-rating
-            background-color="grey lighten-2"
-            length="5"
-            readonly
-            size="20"
-            :value="3"
-          ></v-rating>
+          <div class="mb-5" v-if="res.avg_grade">
+            <div class="text-h6">rating</div>
+            <v-rating
+              background-color="grey lighten-2"
+              length="5"
+              readonly
+              size="20"
+              :value="parseFloat(res.avg_grade)"
+            ></v-rating>
           </div>
           <div class="mb-5">
             <div class="text-h6">
@@ -68,7 +68,7 @@
     name: 'HomeView',
 
 
-    beforeMount(){
+    async beforeMount(){
       this.getMovies(1)
     },
 
@@ -100,6 +100,10 @@
           }
           )
       },
+
+      getReviews: async function() {
+        await this.$store.dispatch('fetchReviews')
+      }
     }
   }
 </script>

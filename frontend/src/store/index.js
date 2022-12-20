@@ -18,13 +18,19 @@ export default new Vuex.Store({
       count: 0,
       results: []
     },
-    reviews: [],
+    reviews: {
+      count: 0,
+      results: []
+    },
   },
   getters: {
     movies: state => state.movies,
     actors: state => state.actors,
-    actorById: state => id => state.actors.results.find(e => e.id === id) ?? false
+    reviews: state => state.reviews,
+    actorById: state => id => state.actors.results.find(e => e.id === id) ?? false,
+    movieById: state => id => state.movies.results.find(e => e.id === id) ?? false
   },
+
   mutations: {
     editMovies(state, data) {
       state.movies = { ...data }
@@ -34,11 +40,16 @@ export default new Vuex.Store({
       state.actors = { ...data }
     },
 
+    editReviews(state, data) {
+      state.reviews = { ...data }
+    },
+
     addActors(state, data) {
       state.actors.results.push(data)
       state.actors.count ++
     },
   },
+
   actions: {
     async fetchMovies({commit, dispatch}, context) {
       try{
@@ -47,7 +58,7 @@ export default new Vuex.Store({
             page: context.page
           }
         })
-        
+
         for(const res of results){
           const actors = []
           for (const actor of res.actors){
@@ -56,11 +67,12 @@ export default new Vuex.Store({
                 type:'fetchActorById',
                 id: actor
               })
-
+  
             actors.push(`${raw.first_name} ${raw.last_name}`)
           }
           res.actors = actors
         }
+        
         commit('editMovies', {count, results})
 
       } catch (error){
@@ -83,6 +95,24 @@ export default new Vuex.Store({
       }
     },
 
+    // async sortActorsByMovies({dispatch}, results){
+    //   console.log(results)
+    //   for(const res of results){
+    //     const actors = []
+    //     for (const actor of res.actors){
+    //       const raw = await dispatch( 
+    //         {
+    //           type:'fetchActorById',
+    //           id: actor
+    //         })
+
+    //       actors.push(`${raw.first_name} ${raw.last_name}`)
+    //     }
+    //     res.actors = actors
+    //   }
+    //   return results
+    // },
+
     async fetchActorById({commit, getters}, context) {
        const find = getters.actorById(context.id)
       if (find)
@@ -99,7 +129,7 @@ export default new Vuex.Store({
       } catch (error){
         alert(error)
       }
-    }
+    },
   },
   modules: {
   }
