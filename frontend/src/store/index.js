@@ -3,8 +3,13 @@ import Vuex from 'vuex'
 
 import axios from "axios";
 
-//link should be on secret .env file but since it's just a localhost link, it's fine
+//should be on secret .env file but since it's just a localhost link, it's fine
 const API_URL = "http://localhost:8000/api/"
+const CRED = {
+  headers: {
+    'Content-Type': 'application/json'
+  }
+}
 
 Vue.use(Vuex)
 
@@ -155,6 +160,22 @@ export default new Vuex.Store({
       movie.description = context.descr
 
       commit('editMovieDescr', {index, movie})
+    },
+
+    //eslint-disable-next-line
+    async newReview({commit},context){
+
+      const json = {
+        grade: context.rating,
+        movie: context.movieId
+    }
+
+    console.log(context)
+      try{
+        await axios.post(`${API_URL}reviews/`, json, CRED)
+      } catch(error) {
+        alert(error)
+      }
     }
   },
   modules: {
