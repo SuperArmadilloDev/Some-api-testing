@@ -59,15 +59,15 @@
             </CustomButton>
           </div>
           <div class="d-flex flex-row" v-else>
-          <CustomButton
-          @clicked="applyChanges(res.id)">
-          Apply
-        </CustomButton>
-          <CustomButton
-          @clicked="movieToEdit = -1">
-          Cancel
-        </CustomButton>
-        </div>
+            <CustomButton
+              @clicked="applyChanges(res.id)">
+              Apply
+            </CustomButton>
+            <CustomButton
+              @clicked="movieToEdit = -1">
+              Cancel
+            </CustomButton>
+          </div>
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
