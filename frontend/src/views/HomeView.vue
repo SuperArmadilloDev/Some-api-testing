@@ -69,7 +69,7 @@
                     <v-list-item-content>
                       <v-list-item-title>
                         <v-checkbox
-                          v-model="checkbox"
+                          v-model="form.parent_id[actor.id]"
                           :label="`${actor.first_name} ${actor.last_name}`"
                         />
                       </v-list-item-title>
@@ -201,7 +201,10 @@
         dialog: false,
         dialogReview: false,
         checkbox: false,
-        rating: 0
+        rating: 0,
+        form: {
+        parent_id: []
+      }
       }
     },
 
