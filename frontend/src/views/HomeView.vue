@@ -38,14 +38,20 @@
             </div>
           </div>
 
-          <div class="d-flex flex-row gap-5">
-            <CustomButton>
+          <div class="d-flex flex-row" v-if="movieToEdit !== res.id">
+            <CustomButton
+            @clicked="addRating()">
               Add rating
             </CustomButton>
-            <CustomButton>
+            <CustomButton
+            @clicked="movieToEdit = res.id">
               Edit
             </CustomButton>
           </div>
+          <CustomButton v-else
+          @clicked="applyChanges(res.id)">
+          Apply
+        </CustomButton>
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
@@ -74,7 +80,9 @@
 
     data(){
       return {
-        page: 1
+        page: 1,
+        movieToEdit: -1,
+        // editMode: false
       }
     },
 
@@ -103,7 +111,17 @@
 
       getReviews: async function() {
         await this.$store.dispatch('fetchReviews')
+      },
+
+      addRating: function(){
+        console.log(this.movieToEdit)
+      },
+
+      applyChanges: function(){
+        this.movieToEdit = -1
+        console.log(this.movieToEdit)
       }
+
     }
   }
 </script>
