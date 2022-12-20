@@ -80,6 +80,7 @@ export default new Vuex.Store({
   
             actors.push(`${raw.first_name} ${raw.last_name}`)
           }
+          res['actorsId'] = res.actors
           res.actors = actors
         }
         
@@ -118,24 +119,6 @@ export default new Vuex.Store({
       }
     },
 
-    // async sortActorsByMovies({dispatch}, results){
-    //   console.log(results)
-    //   for(const res of results){
-    //     const actors = []
-    //     for (const actor of res.actors){
-    //       const raw = await dispatch( 
-    //         {
-    //           type:'fetchActorById',
-    //           id: actor
-    //         })
-
-    //       actors.push(`${raw.first_name} ${raw.last_name}`)
-    //     }
-    //     res.actors = actors
-    //   }
-    //   return results
-    // },
-
     async fetchActorById({commit, getters}, context) {
        const find = getters.actorById(context.id)
       if (find)
@@ -160,10 +143,22 @@ export default new Vuex.Store({
       movie.description = context.descr
 
       commit('editMovieDescr', {index, movie})
+
+      const json = {
+        title : movie.title,
+        description: movie.description,
+        actors: movie.actorsId
+      }
+
+      try{
+        await axios.put(`${API_URL}movies/${context.id}/`, json, CRED)
+      } catch(error) {
+        alert(error)
+      }
     },
 
     //eslint-disable-next-line
-    async newReview({commit},context){
+    async newReview({commit}, context){
 
       const json = {
         grade: context.rating,
