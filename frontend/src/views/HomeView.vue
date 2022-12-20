@@ -37,18 +37,12 @@
           </div>
 
           <div class="d-flex flex-row gap-5">
-            <v-btn
-             class="ma-2 white--text"
-             color="blue"
-             > 
+            <CustomButton>
               Add rating
-            </v-btn>
-            <v-btn 
-            class="ma-2 white--text"
-            color="blue"
-            > 
-              Edit 
-            </v-btn>
+            </CustomButton>
+            <CustomButton>
+              Edit
+            </CustomButton>
           </div>
         </v-expansion-panel-content>
       </v-expansion-panel>
@@ -68,7 +62,7 @@
 </template>
 
 <script>
-  // import HelloWorld from '../components/HelloWorld'
+  import CustomButton from '@/components/CustomButton.vue'
 
   export default {
     name: 'HomeView',
@@ -89,7 +83,7 @@
     },
 
     components: {
-      // HelloWorld,
+      CustomButton,
     },
 
     methods: {
