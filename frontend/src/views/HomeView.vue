@@ -53,15 +53,21 @@
             <CustomButton
             @clicked="
             movieToEdit = res.id
-            newDescr = res.description
+              newDescr = res.description
             ">
               Edit
             </CustomButton>
           </div>
-          <CustomButton v-else
+          <div class="d-flex flex-row" v-else>
+          <CustomButton
           @clicked="applyChanges(res.id)">
           Apply
         </CustomButton>
+          <CustomButton
+          @clicked="movieToEdit = -1">
+          Cancel
+        </CustomButton>
+        </div>
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
@@ -130,7 +136,7 @@
       applyChanges: function(){
         console.log(this.movieToEdit)
         console.log(this.newDescr)
-        
+
         this.$store.dispatch({
           type: 'editMovieDescr',
           id: this.movieToEdit,
