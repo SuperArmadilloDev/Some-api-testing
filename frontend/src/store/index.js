@@ -25,7 +25,7 @@ export default new Vuex.Store({
   },
   getters: {
     movies: state => state.movies,
-    actors: state => state.actors,
+    actors: state => state.actors.results,
     reviews: state => state.reviews,
     actorById: state => id => state.actors.results.find(e => e.id === id) ?? false,
     movieById: state => id => state.movies.results.find(e => e.id === id) ?? false,
@@ -85,15 +85,28 @@ export default new Vuex.Store({
       }
     },
 
-    async fetchActors({commit}, context) {
+    async fetchActors({commit}) {
       try{
-        const {data: {count, results}} = await axios.get(`${API_URL}actors`, {
-          params: {
-            page: context.page
-          }
-        })
 
-        commit('editActors', {count, results})
+        let counter, i = 0
+        let res = []
+        do {
+          const {data: {count, results}} = await axios.get(`${API_URL}actors`, {
+            params: {
+              page: i + 1
+            }
+          })
+
+          if (!counter)
+            counter = count
+
+          res.push(...results)
+          i++
+
+        } while (i <= Math.trunc(counter / 5))
+
+
+        commit('editActors', {count: counter, results: res})
 
       } catch (error){
         alert(error)

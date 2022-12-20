@@ -44,6 +44,58 @@
               </v-card>
             </div>
           </div>
+          <v-row class="mb-10 mt-5 ml-1" v-if="movieToEdit === res.id">
+            <v-dialog
+              v-model="dialog"
+              max-width="600px"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  color="primary"
+                  v-bind="attrs"
+                  v-on="on"
+                  @click="getActors"
+                >
+                  Edit Actors
+                </v-btn>
+              </template>
+              <v-card>
+                <v-card-title>
+                  <span class="text-h5">Edit Actors</span>
+                </v-card-title>
+                <v-card-text>
+                  <v-list-item v-for="actor in $store.getters.actors" :key="actor.id">
+                    <v-list-item-content>
+                      <v-list-item-title>
+                        <v-checkbox
+                          v-model="checkbox"
+                          :label="`${actor.first_name} ${actor.last_name}`"
+                        />
+                      </v-list-item-title>
+                    </v-list-item-content>
+                  </v-list-item>
+                </v-card-text>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                    color="blue darken-1"
+                    text
+                    @click="dialog = false"
+                  >
+                    Close
+                  </v-btn>
+                  <v-btn
+                    color="blue darken-1"
+                    text
+                    @click="dialog = false"
+                  >
+                    Save
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+          </v-row>
+
 
           <div class="d-flex flex-row" v-if="movieToEdit !== res.id">
             <CustomButton
@@ -98,7 +150,9 @@
       return {
         page: 1,
         movieToEdit: -1,
-        newDescr: ''
+        newDescr: '',
+        dialog: false,
+        checkbox: false
       }
     },
 
@@ -116,13 +170,8 @@
           )
       },   
 
-      getActors: function(page) {
-        this.$store.dispatch(
-          {
-            type:'fetchActors',
-            page: page
-          }
-          )
+      getActors: function() {
+        this.$store.dispatch('fetchActors')
       },
 
       getReviews: async function() {
