@@ -27,12 +27,14 @@
             </div>
           </div>
 
-          <div class="mb-5">
+          <div class="mb-5" v-if="res.actors.length > 0">
             <div class="text-h6">
               Actors:
             </div>
-            <div>
-              placeholder
+            <div class="d-flex flex-row">
+              <v-card class="mr-5 pa-5" outlined v-for="actor in res.actors" :key="actor">
+                {{ actor }}
+              </v-card>
             </div>
           </div>
 
@@ -54,14 +56,8 @@
       :total-visible="5"
       @input="getMovies"
     ></v-pagination>
-
-    <div v-for="res in this.$store.getters.actors" :key="res.id">
-      {{  res }}
-    </div>
   </div>
   </v-row>
-
-
 </v-container>
 </template>
 
@@ -94,16 +90,16 @@
             page: page
           }
           )
-      },
+      },   
 
-      getActors: function(id) {
+      getActors: function(page) {
         this.$store.dispatch(
           {
-            type:'fetchActorById',
-            id: id
+            type:'fetchActors',
+            page: page
           }
           )
-      },      
+      },
     }
   }
 </script>
